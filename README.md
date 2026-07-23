@@ -20,13 +20,39 @@ clones into:
 ~/Developer/github.com/nkaewam/git-clonepath
 ```
 
-## Install
+## Installation
+
+Git must already be installed. Prebuilt `git-clonepath` binaries are available
+for macOS and Linux on AMD64 and ARM64.
+
+### Homebrew (recommended)
+
+Install the appropriate prebuilt release binary from the
+[`nkaewam/tap`](https://github.com/nkaewam/homebrew-tap) tap:
+
+```sh
+brew install nkaewam/tap/git-clonepath
+```
+
+Go is not required. To upgrade later:
+
+```sh
+brew update
+brew upgrade git-clonepath
+```
+
+Verify that the executable is available:
+
+```sh
+command -v git-clonepath
+```
 
 ### GitHub Releases
 
-Download the archive for the current operating system and CPU architecture from
+Without Homebrew, download and verify the archive for the current operating
+system and CPU architecture from
 [GitHub Releases](https://github.com/nkaewam/git-clonepath/releases). Set
-`VERSION` to the release tag you want to install:
+`VERSION` to the release tag to install:
 
 ```sh
 VERSION=v0.1.1
@@ -69,16 +95,22 @@ export PATH="${HOME}/.local/bin:${PATH}"
 command -v git-clonepath
 ```
 
-Git automatically exposes an executable named `git-clonepath` as
-`git clonepath`.
-
 ### Build from source
 
-With Go installed:
+With Go installed, build and install the latest tagged version:
 
 ```sh
 go install github.com/nkaewam/clone-path/cmd/git-clonepath@latest
 ```
+
+Ensure the Go binary directory is on `PATH`, then verify the installation:
+
+```sh
+command -v git-clonepath
+```
+
+Git automatically exposes an executable named `git-clonepath` as
+`git clonepath`.
 
 ## Configure
 
