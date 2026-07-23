@@ -90,3 +90,16 @@ Build the supported release targets:
 ```sh
 task release
 ```
+
+## Release
+
+Push a version tag to build and publish macOS and Linux archives for AMD64 and
+ARM64:
+
+```sh
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+The release workflow tests the project, builds all four targets, generates
+`SHA256SUMS`, and creates a GitHub Release with generated release notes.
