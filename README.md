@@ -29,7 +29,7 @@ Download the archive for the current operating system and CPU architecture from
 `VERSION` to the release tag you want to install:
 
 ```sh
-VERSION=v0.1.0
+VERSION=v0.1.1
 
 case "$(uname -s)" in
   Darwin) OS=darwin ;;
