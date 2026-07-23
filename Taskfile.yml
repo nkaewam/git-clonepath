@@ -1,0 +1,32 @@
+version: "3"
+
+tasks:
+  default:
+    desc: Run tests and static analysis
+    cmds:
+      - task: test
+
+  test:
+    desc: Run tests and static analysis
+    cmds:
+      - go test ./...
+      - go vet ./...
+
+  integration:
+    desc: Run process-level tests against the installed Git client
+    cmds:
+      - go test -tags=integration ./integration
+
+  release:
+    desc: Build release binaries for macOS and Linux
+    cmds:
+      - mkdir -p dist
+      - GOOS=darwin GOARCH=amd64 go build -trimpath -o dist/git-clonepath-darwin-amd64 ./cmd/git-clonepath
+      - GOOS=darwin GOARCH=arm64 go build -trimpath -o dist/git-clonepath-darwin-arm64 ./cmd/git-clonepath
+      - GOOS=linux GOARCH=amd64 go build -trimpath -o dist/git-clonepath-linux-amd64 ./cmd/git-clonepath
+      - GOOS=linux GOARCH=arm64 go build -trimpath -o dist/git-clonepath-linux-arm64 ./cmd/git-clonepath
+
+  clean:
+    desc: Remove release artifacts
+    cmds:
+      - rm -rf dist
