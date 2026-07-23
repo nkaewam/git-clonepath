@@ -104,5 +104,5 @@ jobs:
               --generate-notes \
               --repo "${GITHUB_REPOSITORY}" \
               --verify-tag \
-              --title "git-clonepath ${RELEASE_TAG}"
+              --title "${RELEASE_TAG}"
           fi
