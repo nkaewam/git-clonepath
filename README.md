@@ -22,21 +22,63 @@ clones into:
 
 ## Install
 
-Build and place the executable somewhere on `PATH`:
+### GitHub Releases
+
+Download the archive for the current operating system and CPU architecture from
+[GitHub Releases](https://github.com/nkaewam/git-clonepath/releases). Set
+`VERSION` to the release tag you want to install:
 
 ```sh
-go install github.com/nkaewam/clone-path/cmd/git-clonepath@latest
+VERSION=v0.1.0
+
+case "$(uname -s)" in
+  Darwin) OS=darwin ;;
+  Linux) OS=linux ;;
+  *) echo "Unsupported operating system: $(uname -s)" >&2; exit 1 ;;
+esac
+
+case "$(uname -m)" in
+  x86_64|amd64) ARCH=amd64 ;;
+  arm64|aarch64) ARCH=arm64 ;;
+  *) echo "Unsupported CPU architecture: $(uname -m)" >&2; exit 1 ;;
+esac
+
+PACKAGE="git-clonepath_${VERSION#v}_${OS}_${ARCH}"
+ARCHIVE="${PACKAGE}.tar.gz"
+BASE_URL="https://github.com/nkaewam/git-clonepath/releases/download/${VERSION}"
+
+curl -fLO "${BASE_URL}/${ARCHIVE}"
+curl -fLO "${BASE_URL}/SHA256SUMS"
+
+if [ "${OS}" = darwin ]; then
+  grep " ${ARCHIVE}$" SHA256SUMS | shasum -a 256 -c -
+else
+  grep " ${ARCHIVE}$" SHA256SUMS | sha256sum -c -
+fi
+
+tar -xzf "${ARCHIVE}"
+mkdir -p "${HOME}/.local/bin"
+install -m 0755 "${PACKAGE}/git-clonepath" "${HOME}/.local/bin/git-clonepath"
 ```
 
-Or build the current checkout:
+Ensure `~/.local/bin` is on `PATH`, adding the export to your shell profile if
+needed:
 
 ```sh
-go build -o git-clonepath ./cmd/git-clonepath
-install git-clonepath /usr/local/bin/git-clonepath
+export PATH="${HOME}/.local/bin:${PATH}"
+command -v git-clonepath
 ```
 
 Git automatically exposes an executable named `git-clonepath` as
 `git clonepath`.
+
+### Build from source
+
+With Go installed:
+
+```sh
+go install github.com/nkaewam/clone-path/cmd/git-clonepath@latest
+```
 
 ## Configure
 
